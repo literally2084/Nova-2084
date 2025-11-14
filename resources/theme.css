@@ -1,0 +1,15 @@
+/* nova 2084 theme css! */
+body {
+	background: #000000;
+	background-size: 400% 400%;
+	height: 100%;
+}
+
+@keyframes fadeInAnimation {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
