@@ -1,0 +1,115 @@
+<!-- Developed by Novaur. -->
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Primary Meta Tags -->
+        <title>Pilot - Nova 2084</title>
+        <link rel="icon" type="image/x-icon" href="./resources/nv84-icon.ico">
+        <link rel="stylesheet" href="./resources/style.css">
+        <link rel="stylesheet" href="./resources/play.css">
+        <link rel="stylesheet" media="all" href="./resources/theme.css" id="theme_css" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="title" content="Info - Nova 2084" />
+        <meta name="description" content="Literally 2084! Nova 2084 is an adult, indie dystopian sci-fi animated series project by Novaur & StellarSky." />
+
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://miss-nova.github.io/nova2084/" />
+        <meta property="og:title" content="Nova 2084" />
+        <meta property="og:description" content="Literally 2084! Nova 2084 is an adult, indie dystopian sci-fi animated series project by Novaur & StellarSky" />
+        <meta property="og:image" content="./resources/NOVA-2084_LOGO.png" />
+        <meta property="og:image:alt" content="nv84-logo">
+        
+        <!-- Twitter -->
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content="https://miss-nova.github.io/nova2084/" />
+        <meta property="twitter:title" content="Nova 2084" />
+        <meta property="twitter:description" content="Literally 2084! Nova 2084 is an adult, indie dystopian sci-fi animated series project by Novaur & StellarSky" />
+        <meta property="twitter:image" content="./resources/NOVA-2084_LOGO.png" />
+    </head>
+    <body style="background-color: black;">
+        <nav role="navigation">
+      <div id="menuToggle">
+        
+        <input type="checkbox" id="menuCheckbox" />
+        
+        
+        <span></span>
+        <span></span>
+        <span></span>
+        
+      <ul id="menu">
+	
+          <li>
+            <a href="./index.html" style=" color: cyan;>
+              <label for="menuCheckbox" onclick="this.parentNode.click();">Main Page</label>
+            </a>
+          </li>
+
+          <li>
+            <a href="#" target="_blank" id="watch" style="color: cyan; font-size: 35px;">Watch Now!!</a>
+          </li>
+
+          <li>
+            <a href="./info.html" style="color: cyan;>
+              <label for="menuCheckbox" onclick="this.parentNode.click();">About</label>
+            </a>
+          </li>
+          
+          <li><label for="menuCheckbox"><a id="cast" style="color: cyan;">Cast</a></label></li>
+          
+          <li>
+            <a href="#" target="_blank" id="getmail" style="color: cyan;">Contact Us</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+      <main>
+      <script>
+        var getmaily = document.getElementById('getmail');
+        getmaily.onclick = givemail;
+
+        function givemail() {
+          alert("Feel free to contact us via imglitchieeee@gmail.com!\n\nPlease do not send anything harmful, mean, or unimportant! Thanks! :)");
+          return false;
+        }
+
+        var watchy = document.getElementById('watch');
+        watchy.onclick = watch;
+
+        function watch() {
+          window.location.href = "./episodes.html";
+          return false;
+        }
+
+        var casty = document.getElementById('cast');
+        casty.onclick = cast;
+
+        function cast() {
+          window.location.href = "./cast.html";
+          return false;
+        } 
+      </script>
+
+        <div id="main">
+
+        	<div class="video-container">
+    			<video id="video" preload="metadata" poster="https://static.wikia.nocookie.net/nova-2084/images/0/08/Site-background-dark/revision/latest/scale-to-width-down/1000?cb=20251104205733">
+        			<source src="./resources/sample.mp4" type="video/mp4">
+        			<!-- Add other source types for broader compatibility -->
+        			Your browser does not support the video tag.
+    			</video>
+    		<div class="controls">
+        		<button id="play-pause">▶️</button>
+        		<input type="range" id="volume-slider" min="0" max="1" step="0.1" value="1">
+        		<div class="progress-bar">
+        	    <div class="progress"></div>
+        		</div>
+        		<span id="time">0:00 / 0:00</span>
+        		<button id="fullscreen">⛶</button>
+    		</div>
+	</div>
+
+        <script src="./resources/play.js"></script>
+    </body>
+</html>
