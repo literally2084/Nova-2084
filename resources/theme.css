@@ -1,0 +1,165 @@
+/* nova 2084 theme css! */
+:root {
+  --neon-color: #0ff;
+}
+
+body {
+  background: #000000;
+  background-size: 400% 400%;
+  height: 100%;
+}
+
+.neon-modal {
+  background: #000000;
+  border: 2px solid var(--neon-color);
+  border-radius: 10px;
+  padding: 2rem;
+  color: white;
+  box-shadow: 0 0 10px var(--neon-color),
+  0 0 20px var(--neon-color),
+  inset 0 0 10px var(--neon-color);
+}
+
+.neon-text {
+  color: #fff;
+  text-shadow: 0 0 5px #fff, 0 0 10px var(--neon-color), 0 0 20px var(--neon-color);
+  animation: flicker 1.5s infinite alternate;
+}
+
+@keyframes flicker {
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; }
+  20%, 24%, 55% { opacity: 0.5; }
+}
+
+
+@keyframes fadeInAnimation {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.glitch-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 99999;
+  background: rgba(255, 0, 0, 0.0);
+  opacity: 0.15; 
+  mix-blend-mode: screen;
+  animation: glitch-global 8s infinite steps(5); 
+  will-change: transform, opacity;
+}
+
+.glitch-overlay::before,
+.glitch-overlay::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: inherit;
+  mix-blend-mode: difference;
+}
+
+.glitch-overlay::before {
+  animation: glitch-shift 4s infinite linear alternate-reverse;
+  transform: translate(0, 0);
+}
+
+.glitch-overlay::after {
+  animation: glitch-shift 6s infinite linear alternate-reverse;
+  animation-delay: 2s;
+}
+
+@keyframes glitch-global {
+  0%, 100% { opacity: 0.15; transform: translate(0, 0); }
+  2%  { opacity: 0.4; transform: translate(-2px, 1px); }
+  4%  { opacity: 0.25; transform: translate(2px, -1px); }
+  6%  { opacity: 0.35; transform: translate(-1px, 2px); }
+  98% { opacity: 0.2; transform: translate(1px, -2px); }
+}
+
+@keyframes glitch-shift {
+  0%   { clip-path: inset(0 0 0 0); transform: translate(0); }
+  10%  { clip-path: inset(2% 0 5% 0); transform: translate(-5px, 3px); }
+  20%  { clip-path: inset(5% 3% 2% 5%); transform: translate(4px, -4px); }
+  100% { clip-path: inset(0); transform: translate(0); }
+}
+
+.glitch-overlay::after {
+  background: repeating-linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 255, 255, 0.03) 1px,
+    transparent 2px
+  );
+  animation: scan 10s linear infinite;
+}
+
+@keyframes scan {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+.glitch {
+    position: relative;
+    color: #ff0044;
+    font-size: 2.5rem;
+    letter-spacing: 0.1em;
+    animation: glitch-skew 4s infinite;
+  }
+
+  .glitch::before,
+  .glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: #000;
+    overflow: hidden;
+  }
+
+  .glitch::before {
+    left: 2px;
+    text-shadow: -2px 0 #00ffff;
+    clip: rect(0, 900px, 0, 0);
+    animation: glitch-anim 2s infinite linear alternate-reverse;
+  }
+
+  .glitch::after {
+    left: -2px;
+    text-shadow: 2px 0 #ff00ff;
+    clip: rect(0, 900px, 0, 0);
+    animation: glitch-anim2 3s infinite linear alternate-reverse;
+  }
+
+  @keyframes glitch-anim {
+    0%   { clip: rect(42px, 9999px, 80px, 0); transform: skew(0.4deg); }
+    5%   { clip: rect(17px, 9999px, 94px, 0); transform: skew(0.7deg); }
+    100% { clip: rect(65px, 9999px, 111px, 0); transform: skew(0.2deg); }
+  }
+
+  @keyframes glitch-anim2 {
+    0%   { clip: rect(65px, 9999px, 119px, 0); transform: skew(-0.2deg); }
+  }
+
+  @keyframes glitch-skew {
+    0%, 100% { transform: skew(0deg); }
+    10% { transform: skew(2deg); }
+  }
+
+#menu li a {
+  text-decoration: none;
+  letter-spacing: 2px;
+  transition: all 0.3s ease;
+  border-left: 0px solid cyan;
+}
+
+#menu li a:hover {
+  color: #fff !important;
+  background: rgba(0, 255, 249, 0.1);
+  padding-left: 15px;
+  border-left: 5px solid cyan;
+  text-shadow: 0 0 8px cyan;
+}

@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en" class="crt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <title>NOVA 2084</title>
+    <link rel="icon" type="image/x-icon" href="./resources/nv84-icon.ico">
+    <link rel="stylesheet" href="./resources/style.css">
+    <link rel="stylesheet" media="all" href="./resources/theme.css" id="theme_css" />
+    <meta name="description" content="NOVA 2084. The Visionary Is Watching You.">
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <meta name="robots" content="noindex, nofollow">
+
+    <style>
+        :root {
+            --primary: #00ff9d;
+            --warning: #ff0044;
+            --text:   #00ff41;
+            --bg:     #000000;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; }
+
+        html, body {
+            height: 100dvh;
+            margin: 0;
+            padding: 0;
+            background: var(--bg) !important;
+            color: var(--text);
+            font-family: 'VT323', monospace;
+            cursor: none;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        #content-area, #syncOverlay, dialog, dialog::backdrop {
+            background: var(--bg) !important;
+        }
+
+        .crt::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 9998;
+            background: repeating-linear-gradient(transparent 0, transparent 2px, rgba(0,0,0,0.4) 2px, rgba(0,0,0,0.4) 4px);
+            background-size: 100% 4px;
+            animation: scan 12s linear infinite;
+            mix-blend-mode: multiply;
+        }
+
+        .crt::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 9997;
+            background: linear-gradient(to bottom, rgba(255,0,255,0.04) 0%, transparent 50%, rgba(0,255,255,0.04) 100%);
+            animation: aberration 7s infinite alternate;
+        }
+
+        @keyframes scan       { 0% { transform: translateY(-100%); } 100% { transform: translateY(100%); } }
+        @keyframes aberration { 0% { transform: translateX(-1.5px); } 100% { transform: translateX(1.5px); } }
+
+        #eye-cursor {
+            position: fixed;
+            width: 32px;
+            height: 32px;
+            pointer-events: none;
+            z-index: 99999;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="38" fill="none" stroke="%2300ff9d" stroke-width="6"/><circle cx="50" cy="50" r="18" fill="%23ff0044"/><circle cx="58" cy="45" r="6" fill="white"/></svg>') no-repeat center / contain;
+            transform: translate(-50%, -50%);
+            transition: transform 0.12s ease-out;
+            filter: drop-shadow(0 0 8px #00ff9d);
+        }
+
+        @media (max-width: 600px) { #eye-cursor { width: 26px; height: 26px; } }
+
+        #escalation {
+            position: fixed;
+            bottom: 2vh;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--warning);
+            font-size: clamp(1.1rem, 4vw, 1.3rem);
+            opacity: 0;
+            transition: opacity 2.5s;
+            text-align: center;
+            max-width: 92%;
+            text-shadow: 0 0 10px #000;
+            z-index: 9990;
+            pointer-events: none;
+            padding: 0 1rem;
+        }
+
+        #syncOverlay {
+            position: fixed;
+            inset: 0;
+            background: var(--bg);
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: clamp(1.6rem, 5vw, 1.8rem);
+            opacity: 0;
+            transition: opacity 1.5s;
+        }
+
+        #syncBarContainer {
+            width: 80%;
+            max-width: 500px;
+            height: 24px;
+            background: #111;
+            border: 2px solid var(--primary);
+            margin: 5vh 0;
+        }
+
+        #syncBar {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(to right, var(--primary), #006633);
+            transition: width 5.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+        }
+
+        dialog {
+            position: fixed;
+            inset: 0;
+            margin: auto;
+            width: 90vw;
+            max-width: 620px;
+            max-height: 85dvh;
+            padding: 1.8rem 1.2rem;
+            background: var(--bg);
+            border: 2px solid #00aaaa;
+            color: var(--text);
+            box-shadow: 0 0 60px rgba(0,255,200,0.25);
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: #00ff9d #111;
+        }
+
+        dialog::backdrop {
+            background: rgba(0,0,0,0.92);
+            backdrop-filter: blur(12px);
+        }
+
+        @media (max-width: 480px) {
+            dialog { width: 94vw; padding: 1.5rem 1rem; max-height: 88dvh; }
+        }
+
+        .btn-nv84 {
+            display: block;
+            margin: 1.8rem auto 0;
+            padding: 1rem 2.5rem;
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            font-size: clamp(1.2rem, 4.5vw, 1.35rem);
+            font-family: inherit;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            min-width: 160px;
+            max-width: 90%;
+            touch-action: manipulation;
+        }
+
+        .btn-nv84:active { background: rgba(0,255,157,0.15); }
+
+        .center { text-align: center; }
+
+        .glitch {
+            position: relative;
+            animation: glitch-skew 5s infinite;
+        }
+        .glitch::before, .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: var(--bg);
+        }
+        .glitch::before {
+            left: 2px; text-shadow: -2px 0 #00ffff;
+            clip: rect(0,9999px,0,0);
+            animation: glitch-anim 3s infinite;
+        }
+        .glitch::after {
+            left: -2px; text-shadow: 2px 0 #ff00ff;
+            clip: rect(0,9999px,0,0);
+            animation: glitch-anim2 4s infinite;
+        }
+
+        @keyframes glitch-anim  { 0%,100% { clip: rect(30px,9999px,90px,0) } 5% { clip: rect(10px,9999px,110px,0) } }
+        @keyframes glitch-anim2 { 0%,100% { clip: rect(70px,9999px,130px,0) } 10% { clip: rect(50px,9999px,150px,0) } }
+        @keyframes glitch-skew   { 0%,100% { transform: skew(0deg) } 10% { transform: skew(1.5deg) } }
+    </style>
+</head>
+<body class="crt">
+
+<div id="syncOverlay">
+    <h1 class="glitch" data-text="VCHIP NEURAL SCANNING">VCHIP: NEURAL SCANNING</h1>
+    <div id="syncBarContainer">
+        <div id="syncBar"></div>
+    </div>
+    <p id="syncStatus">LINKING NEURAL ENDPOINT TO GLOBAL DATABASES… 0%</p>
+</div>
+
+<div id="escalation"></div>
+
+<nav role="navigation">
+    <div id="menuToggle">
+        <input type="checkbox" id="menuCheckbox" />
+        <span></span><span></span><span></span>
+        <ul id="menu">
+            <li><a style="color: cyan;" href="javascript:void(0)" onclick="loadPage('home.html')"><label for="menuCheckbox">MAIN PAGE</label></a></li>
+            <li><a style="color: cyan;" href="javascript:void(0)" onclick="loadPage('newz.html')"><label for="menuCheckbox">NEWZ</label></a></li>
+            <li><a style="color: cyan;" href="javascript:void(0)" onclick="loadPage('info.html')"><label for="menuCheckbox">ABOUT</label></a></li>
+            <li><a style="color: cyan;" href="javascript:void(0)" onclick="loadPage('cast.html')"><label for="menuCheckbox">CAST</label></a></li>
+            <li><a style="color: cyan;" id="connectBtn" href="javascript:void(0)"><label for="menuCheckbox">CONNECT</label></a></li>
+        </ul>
+    </div>
+</nav>
+
+<main id="content-area"></main>
+
+<dialog id="neonPopup" open>
+    <h2 class="center">CITIZEN, TIMELINE 2026 <span id="timeline"></span></h2>
+    <h2 class="glitch center" data-text="THE VISIONARY IS WATCHING YOU.">THE VISIONARY IS WATCHING YOU.</h2>
+    <h2 class="center" style="color:cyan;">COORDINATES: <span id="coords">??, ??</span></h2>
+    <p class="center" id="docMsg">
+        IRIS VISIONARY SYSTEM SCAN COMPLETE<br>
+        <span id="region">CITIZEN IDENTITY MASKED BY FREE WILL ERROR</span>
+    </p>
+    <a id="closeBtn" class="btn-nv84 center" href="javascript:void(0)">COMPLY</a>
+</dialog>
+
+<dialog id="neonPopup2">
+    <h2 class="neon-text center">CONNECT</h2>
+    <p class="center">imglitchieeee@gmail.com<br>TRANSMISSION INTERCEPTED AND ARCHIVED</p>
+    <a id="closeBtn2" class="btn-nv84 center" href="javascript:void(0)">COMPLY</a>
+</dialog>
+
+<script src="https://cdn.jsdelivr.net/gh/bigdatacloudapi/js-reverse-geocode-client@latest/bigdatacloud_reverse_geocode.min.js"></script>
+    
+<script>
+// Timeline
+document.getElementById('timeline').textContent = new Date().toLocaleTimeString([], {hour:'2-digit', minute:'2-digit', second:'2-digit'});
+
+// Loading bar
+const syncOverlay = document.getElementById('syncOverlay');
+const syncBar     = document.getElementById('syncBar');
+const syncStatus  = document.getElementById('syncStatus');
+
+syncOverlay.style.opacity = '1';
+
+let progress = 0;
+const loadInterval = setInterval(() => {
+    const step = Math.random() * 24 + 8;
+    progress = Math.min(100, progress + step);
+
+    syncBar.style.width = progress + '%';
+    syncStatus.textContent = `LINKING NEURAL ENDPOINT TO GLOBAL DATABASES… ${Math.floor(progress)}%`;
+
+    if (progress >= 100) {
+        clearInterval(loadInterval);
+        setTimeout(() => {
+            syncOverlay.style.opacity = '0';
+            setTimeout(() => syncOverlay.remove(), 1600);
+        }, 1800);
+    }
+}, 280);
+
+const coordsEl = document.getElementById('coords');
+const regionEl = document.getElementById('region');
+
+coordsEl.textContent = '??, ??';
+regionEl.textContent = 'CITIZEN IDENTITY MASKED BY FREE WILL ERROR';
+
+function cleanCountryName(name) {
+    if (!name) return 'IRIS TERRITORY';
+    return name
+        .replace(/\s*\(the\)\s*/gi, ' ')
+        .replace(/\bthe\s+/gi, '')
+        .replace(/\s+/g, ' ')
+        .trim();
+}
+
+function setDystopianMsg(msg) {
+    regionEl.textContent = msg;
+    coordsEl.textContent = '??, ??';
+}
+
+if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+        pos => {
+            const lat = pos.coords.latitude.toFixed(4);
+            const lon = pos.coords.longitude.toFixed(4);
+            coordsEl.textContent = `${lat}, ${lon}`;
+
+            fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=en`)
+                .then(r => r.json())
+                .then(data => {
+                    if (data && (data.city || data.locality || data.countryName)) {
+                        const city = data.city || data.locality || '??';
+                        const country = cleanCountryName(data.countryName);
+                        regionEl.textContent = `SECTOR: ${city}, ${country} – IRIS DATABASES SYNCED`;
+                    } else {
+                        regionEl.textContent = 'REVERSE SCAN FAILED – COORDINATES KNOWN TO THE VISIONARY';
+                    }
+                })
+                .catch(() => {
+                    regionEl.textContent = 'REVERSE SCAN FAILED – COORDINATES KNOWN TO THE VISIONARY';
+                });
+        },
+        err => {
+            let msg = 'LOCATION ACCESS DENIED BY SUBJECT';
+            if (err.code === err.TIMEOUT) msg = 'LOCATION QUERY TIMED OUT – RESISTANCE SUSPECTED';
+            if (err.code === err.POSITION_UNAVAILABLE) msg = 'POSITION DATA UNAVAILABLE – DEVICE INTERFERENCE DETECTED';
+            setDystopianMsg(msg);
+
+            // Denied → fall back to IP
+            getIPLocation();
+        },
+        { timeout: 7000, maximumAge: 0 }
+    );
+} else {
+    setDystopianMsg('LEGACY DEVICE DETECTED – FORCING NODE IDENTIFICATION');
+    getIPLocation();
+}
+
+// IP fallback
+function getIPLocation() {
+    fetch('https://ipapi.co/json/')
+        .then(r => r.json())
+        .then(data => {
+            if (data && data.latitude && data.longitude) {
+                coordsEl.textContent = `${data.latitude.toFixed(4)}, ${data.longitude.toFixed(4)} (approx)`;
+                const country = cleanCountryName(data.country_name);
+                const loc = [data.region || '??', country].filter(Boolean).join(', ');
+                regionEl.textContent = `SUBJECT DETECTED IN: ${loc} – NO ESCAPE POSSIBLE`;
+            } else {
+                setDystopianMsg('GLOBAL NODE QUERY REJECTED – YOU CANNOT HIDE');
+            }
+        })
+        .catch(() => setDystopianMsg('ALL IDENTIFICATION CHANNELS BLOCKED – ANOMALY FLAGGED'));
+}
+
+// Escalation messages
+const escalationEl = document.getElementById('escalation');
+const messages = [
+    "",
+    "CITIZEN ACKNOWLEDGMENT LOGGED. RESISTANCE NOTED.",
+    "THOUGHT DEVIATION DETECTED. RECALIBRATION REQUIRED.",
+    "NEIGHBOR DENUNCIATION RECEIVED. YOUR FILE IS UPDATED.",
+    "UNSANCTIONED BEHAVIOR FLAGGED. ATTENTION IS REQUIRED.",
+    "DISOBEDIENCE PROTOCOL ACTIVATED. COMPLY OR BE RE-EDUCATED.",
+    "YOUR PROFILE IS NOW UNDER PRIORITY SURVEILLANCE."
+];
+
+let msgIdx = 0;
+function showEscalation() {
+    if (Math.random() > 0.4) {
+        escalationEl.textContent = messages[msgIdx % messages.length];
+        escalationEl.style.opacity = '1';
+        setTimeout(() => escalationEl.style.opacity = '0', 6500);
+        msgIdx++;
+    }
+    setTimeout(showEscalation, 14000 + Math.random() * 22000);
+}
+setTimeout(showEscalation, 10000);
+
+// Modal + scroll lock
+let scrollY = 0;
+function lockScroll(open) {
+    if (open) {
+        scrollY = window.scrollY;
+        document.body.classList.add('dialog-open');
+        document.body.style.top = `-${scrollY}px`;
+    } else {
+        document.body.classList.remove('dialog-open');
+        document.body.style.top = '';
+        window.scrollTo(0, scrollY);
+    }
+}
+
+document.addEventListener('click', e => {
+    if (e.target.closest('#connectBtn')) {
+        e.preventDefault();
+        const m = document.querySelector('#neonPopup2');
+        if (m) { m.showModal(); lockScroll(true); }
+    }
+    if (e.target.closest('#closeBtn')) {
+        const m = document.querySelector('#neonPopup');
+        if (m) m.close();
+        lockScroll(false);
+        if (typeof loadPage === 'function') loadPage('home.html');
+    }
+    if (e.target.closest('#closeBtn2')) {
+        const m = document.querySelector('#neonPopup2');
+        if (m) m.close();
+        lockScroll(false);
+    }
+});
+
+document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+        const open = document.querySelector('dialog[open]');
+        if (open) {
+            open.close();
+            lockScroll(false);
+        }
+    }
+});
+
+if (document.querySelector('#neonPopup[open]')) lockScroll(true);
+
+// Prevent zoom
+document.addEventListener('wheel', e => { if (e.ctrlKey) e.preventDefault(); }, {passive:false});
+document.addEventListener('keydown', e => {
+    if ((e.ctrlKey || e.metaKey) && ['+','-','='].includes(e.key)) e.preventDefault();
+});
+</script>
+
+<script src="./resources/script.js"></script>
+<script src="./resources/newz.js"></script>
+<script src="./resources/cast.js"></script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+
+@font-face {
+    font-family: "LazenbyCompSmooth";
+    src: url("../resources/fonts/LazenbyCompSmooth.ttf");
+}
+
+body {
+    font-family: LazenbyCompSmooth;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+header {
+    background-color: #000000;
+    color: white;
+    padding: 1rem 0;
+    text-align: center;
+}
+
+#cast-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+}
+
+.card {
+    background-color: black;
+    border-radius: 8px;
+    border-color: cyan;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    overflow: hidden;
+    width: 200px;
+    text-align: center;
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.card-info {
+    padding: 15px;
+}
+
+.card-info h3 {
+    margin: 0 0 5px 0;
+    color: #333;
+}
+
+.card-info p {
+    margin: 0;
+    color: #666;
+    font-size: 0.9rem;
+}
