@@ -398,25 +398,27 @@ let resizeTimeout;
 function checkDevTools() {
     clearTimeout(resizeTimeout);
     resizeTimeout = setTimeout(() => {
-        const wDiff = window.outerWidth - window.innerWidth;
-        const hDiff = window.outerHeight - window.innerHeight;
-        const threshold = 200;
+        const wDiff = Math.abs(window.outerWidth - window.innerWidth);
+        const hDiff = Math.abs(window.outerHeight - window.innerHeight);
+        const threshold = 300;
 
-        if ((wDiff > threshold || hDiff > threshold) && !devOpen) {
-            devOpen = true;
-            devWarning.classList.add('visible');
-        } else if (devOpen && wDiff < 50 && hDiff < 50) {
+        if (wDiff > threshold || hDiff > threshold) {
+            if (!devOpen) {
+                devOpen = true;
+                devWarning.classList.add('visible');
+            }
+        } else if (devOpen) {
             devWarning.classList.remove('visible');
             devOpen = false;
         }
-    }, 600);
+    }, 800);
 }
 
 window.addEventListener('load', () => {
     setTimeout(() => {
         window.addEventListener('resize', checkDevTools);
-        checkDevTools();
-    }, 2500);
+        setTimeout(checkDevTools, 3000);
+    }, 3000);
 });
 
 setTimeout(() => {
@@ -428,7 +430,7 @@ setTimeout(() => {
         }
     };
     console.log('%c', test);
-}, 3000);
+}, 5000);
     
 // Escalation messages
 const escalationEl = document.getElementById('escalation');
