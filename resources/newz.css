@@ -5,7 +5,6 @@
 }
 
 body {
-    font-family: LazenbyCompSmooth;
     margin: 0;
     padding: 0;
 }
@@ -47,15 +46,18 @@ header {
 }
 
 .card-info {
+    font-family: LazenbyCompSmooth;
     padding: 15px;
 }
 
 .card-info h3 {
+    font-family: LazenbyCompSmooth;
     margin: 0 0 5px 0;
     color: #333;
 }
 
 .card-info p {
+    font-family: LazenbyCompSmooth;
     margin: 0;
     color: #666;
     font-size: 0.9rem;
