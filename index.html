@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="./resources/style.css">
     <link rel="stylesheet" media="all" href="./resources/theme.css" id="theme_css" />
     <meta name="description" content="NOVA 2084. The Visionary Is Watching You.">
-    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
     <meta name="robots" content="noindex, nofollow">
 
     <style>
@@ -226,16 +225,17 @@
             cursor: default;
         }
 
-        #devtools-warning.visible {
+        #devtools-warning.visible, #tamper-warning.visible {
             display: block;
             opacity: 1;
-            z-index: 100001;
         }
 
-        #tamper-warning.visible {
-            display: block;
-            opacity: 1;
-        }    
+        @media (max-width: 600px) {
+            #tamper-warning, #devtools-warning {
+                padding: 1rem 2rem;
+                font-size: 1.4rem;
+            }
+        }
     </style>
 </head>
 <body class="crt">
@@ -398,27 +398,25 @@ let resizeTimeout;
 function checkDevTools() {
     clearTimeout(resizeTimeout);
     resizeTimeout = setTimeout(() => {
-        const widthDiff = window.outerWidth - window.innerWidth;
-        const heightDiff = window.outerHeight - window.innerHeight;
-        const threshold = 160;
+        const wDiff = window.outerWidth - window.innerWidth;
+        const hDiff = window.outerHeight - window.innerHeight;
+        const threshold = 200;
 
-        if (widthDiff > threshold || heightDiff > threshold) {
-            if (!devOpen) {
-                devOpen = true;
-                devWarning.classList.add('visible');
-            }
-        } else if (devOpen) {
+        if ((wDiff > threshold || hDiff > threshold) && !devOpen) {
+            devOpen = true;
+            devWarning.classList.add('visible');
+        } else if (devOpen && wDiff < 50 && hDiff < 50) {
             devWarning.classList.remove('visible');
             devOpen = false;
         }
-    }, 500); 
+    }, 600);
 }
 
 window.addEventListener('load', () => {
     setTimeout(() => {
         window.addEventListener('resize', checkDevTools);
         checkDevTools();
-    }, 1500);
+    }, 2500);
 });
 
 setTimeout(() => {
@@ -430,7 +428,7 @@ setTimeout(() => {
         }
     };
     console.log('%c', test);
-}, 2000);
+}, 3000);
     
 // Escalation messages
 const escalationEl = document.getElementById('escalation');
@@ -518,5 +516,6 @@ document.addEventListener('keydown', e => {
 <script src="./resources/script.js"></script>
 <script src="./resources/newz.js"></script>
 <script src="./resources/cast.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
 </body>
 </html>
