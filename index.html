@@ -216,10 +216,10 @@
             transition: opacity 0.6s;
             text-shadow: 0 0 12px #000;
             box-shadow: 0 0 40px rgba(255,0,68,0.4);
+            display: none;
         }
 
         #devtools-warning {
-            opacity: 0;
             background: rgba(255,68,0,0.25);
             border-color: #ff4400;
             pointer-events: all;
@@ -227,9 +227,15 @@
         }
 
         #devtools-warning.visible {
+            display: block;
             opacity: 1;
             z-index: 100001;
         }
+
+        #tamper-warning.visible {
+            display: block;
+            opacity: 1;
+        }    
     </style>
 </head>
 <body class="crt">
@@ -385,45 +391,46 @@ function getIPLocation() {
         .catch(() => setDystopianMsg('ALL IDENTIFICATION CHANNELS BLOCKED – ANOMALY FLAGGED'));
 }
 
-document.addEventListener('contextmenu', e => {
-    e.preventDefault();
-    const tamper = document.getElementById('tamper-warning');
-    tamper.style.opacity = '1';
-    setTimeout(() => tamper.style.opacity = '0', 5000);
-});
-
 const devWarning = document.getElementById('devtools-warning');
 let devOpen = false;
+let resizeTimeout;
 
 function checkDevTools() {
-    const threshold = 160;
-    const widthDiff = window.outerWidth - window.innerWidth;
-    const heightDiff = window.outerHeight - window.innerHeight;
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+        const widthDiff = window.outerWidth - window.innerWidth;
+        const heightDiff = window.outerHeight - window.innerHeight;
+        const threshold = 160;
 
-    if (widthDiff > threshold || heightDiff > threshold) {
+        if (widthDiff > threshold || heightDiff > threshold) {
+            if (!devOpen) {
+                devOpen = true;
+                devWarning.classList.add('visible');
+            }
+        } else if (devOpen) {
+            devWarning.classList.remove('visible');
+            devOpen = false;
+        }
+    }, 500); 
+}
+
+window.addEventListener('load', () => {
+    setTimeout(() => {
+        window.addEventListener('resize', checkDevTools);
+        checkDevTools();
+    }, 1500);
+});
+
+setTimeout(() => {
+    const test = /./;
+    test.toString = function() {
         if (!devOpen) {
             devOpen = true;
             devWarning.classList.add('visible');
         }
-    } else if (devOpen) {
-        devWarning.classList.remove('visible');
-        devOpen = false;
-    }
-}
-
-window.addEventListener('resize', checkDevTools);
-setInterval(checkDevTools, 1500);
-
-checkDevTools();
-
-const consoleOpenCheck = /./;
-consoleOpenCheck.toString = function() {
-    if (!devOpen) {
-        devOpen = true;
-        devWarning.classList.add('visible');
-    }
-};
-console.log('%c', consoleOpenCheck);
+    };
+    console.log('%c', test);
+}, 2000);
     
 // Escalation messages
 const escalationEl = document.getElementById('escalation');
