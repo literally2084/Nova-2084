@@ -198,6 +198,38 @@
         @keyframes glitch-anim  { 0%,100% { clip: rect(30px,9999px,90px,0) } 5% { clip: rect(10px,9999px,110px,0) } }
         @keyframes glitch-anim2 { 0%,100% { clip: rect(70px,9999px,130px,0) } 10% { clip: rect(50px,9999px,150px,0) } }
         @keyframes glitch-skew   { 0%,100% { transform: skew(0deg) } 10% { transform: skew(1.5deg) } }
+
+        #tamper-warning, #devtools-warning {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255,0,68,0.2);
+            border: 3px solid var(--warning);
+            color: var(--warning);
+            padding: 1.5rem 3rem;
+            font-size: 1.8rem;
+            text-align: center;
+            z-index: 100000;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.6s;
+            text-shadow: 0 0 12px #000;
+            box-shadow: 0 0 40px rgba(255,0,68,0.4);
+        }
+
+        #devtools-warning {
+            opacity: 0;
+            background: rgba(255,68,0,0.25);
+            border-color: #ff4400;
+            pointer-events: all;
+            cursor: default;
+        }
+
+        #devtools-warning.visible {
+            opacity: 1;
+            z-index: 100001;
+        }
     </style>
 </head>
 <body class="crt">
@@ -211,6 +243,9 @@
 </div>
 
 <div id="escalation"></div>
+
+<div id="tamper-warning">TAMPERING DETECTED<br>INCIDENT LOGGED – OVERSIGHT ALERTED</div>
+<div id="devtools-warning">OVERSIGHT BREACH DETECTED<br>YOUR ACTIONS ARE NOW FLAGGED FOR PRIORITY REVIEW<br>THE VISI👁️ARY IS WATCHING. DON'T FORGET.</div>
 
 <nav role="navigation">
     <div id="menuToggle">
@@ -350,6 +385,46 @@ function getIPLocation() {
         .catch(() => setDystopianMsg('ALL IDENTIFICATION CHANNELS BLOCKED – ANOMALY FLAGGED'));
 }
 
+document.addEventListener('contextmenu', e => {
+    e.preventDefault();
+    const tamper = document.getElementById('tamper-warning');
+    tamper.style.opacity = '1';
+    setTimeout(() => tamper.style.opacity = '0', 5000);
+});
+
+const devWarning = document.getElementById('devtools-warning');
+let devOpen = false;
+
+function checkDevTools() {
+    const threshold = 160;
+    const widthDiff = window.outerWidth - window.innerWidth;
+    const heightDiff = window.outerHeight - window.innerHeight;
+
+    if (widthDiff > threshold || heightDiff > threshold) {
+        if (!devOpen) {
+            devOpen = true;
+            devWarning.classList.add('visible');
+        }
+    } else if (devOpen) {
+        devWarning.classList.remove('visible');
+        devOpen = false;
+    }
+}
+
+window.addEventListener('resize', checkDevTools);
+setInterval(checkDevTools, 1500);
+
+checkDevTools();
+
+const consoleOpenCheck = /./;
+consoleOpenCheck.toString = function() {
+    if (!devOpen) {
+        devOpen = true;
+        devWarning.classList.add('visible');
+    }
+};
+console.log('%c', consoleOpenCheck);
+    
 // Escalation messages
 const escalationEl = document.getElementById('escalation');
 const messages = [
