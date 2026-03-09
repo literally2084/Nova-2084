@@ -1,6 +1,6 @@
 // 1. Define the cast data
 const castMembers = [
-    { name: "TBD", role: "Nova-84", imageUrl: "via.placeholder.com" },
+    { name: "TBD", role: "Nova-84", imageUrl: "https://literally2084.github.io/Nova-2084/resources/nova-84-icon.png" },
     { name: "TBD", role: "Darcella", imageUrl: "via.placeholder.com" },
     { name: "StellarSky", role: "Astra Aubert", imageUrl: "via.placeholder.com" },
     { name: "Friend0", role: "Mr. Len", imageUrl: "via.placeholder.com" },
