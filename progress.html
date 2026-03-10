@@ -6,6 +6,7 @@
       --primary: #00fff7;
       --warning: #ff0044;
       --border: #00aaaa;
+      --glow: rgba(12, 255, 255, 0.8);
     }
 
     body {
@@ -21,14 +22,33 @@
       overflow-x: hidden;
       cursor: none;
       image-rendering: pixelated;
+      position: relative;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background: repeating-linear-gradient(
+        transparent 0,
+        transparent 2px,
+        rgba(0,0,0,0.35) 2px,
+        rgba(0,0,0,0.35) 4px
+      );
+      background-size: 100% 4px;
+      animation: scan 10s linear infinite;
+      mix-blend-mode: multiply;
+      z-index: 1;
     }
 
     h1.glitch {
-      font-size: clamp(2.2rem, 8vw, 4.5rem);
+      font-size: clamp(2.5rem, 9vw, 5rem);
       text-align: center;
       margin: 2rem 0 1.5rem;
       animation: glitch-skew 4s infinite;
       position: relative;
+      z-index: 2;
     }
 
     h1.glitch::before,
@@ -55,40 +75,43 @@
     @keyframes glitch-anim  { 0%,100% { clip: rect(42px,9999px,44px,0) } 5% { clip: rect(17px,9999px,94px,0) } }
     @keyframes glitch-anim2 { 0%,100% { clip: rect(65px,9999px,119px,0) } 10% { clip: rect(37px,9999px,77px,0) } }
     @keyframes glitch-skew  { 0%,100% { transform: skew(0deg) } 10% { transform: skew(2deg) } }
+    @keyframes scan { 0% { transform: translateY(-100%); } 100% { transform: translateY(100%); } }
 
     .progress-grid {
       width: 90vw;
       max-width: 900px;
       display: grid;
-      grid-template-columns: minmax(140px, 1fr) 3fr;
+      grid-template-columns: minmax(160px, auto) 1fr;
       gap: 1.2rem 2rem;
       align-items: center;
       padding: 1rem 0;
+      z-index: 2;
     }
 
     .label {
-      font-size: clamp(1.3rem, 4.5vw, 1.9rem);
+      font-size: clamp(1.4rem, 5vw, 2rem);
       text-align: right;
       color: var(--primary);
-      text-shadow: 0 0 6px currentColor;
+      text-shadow: 0 0 8px currentColor;
       white-space: nowrap;
     }
 
     .bar-container {
-      height: 28px;
-      background: #111;
+      height: 32px;
+      background: #0a0a0a;
       border: 2px solid var(--border);
       position: relative;
       overflow: hidden;
-      border-radius: 0;
+      box-shadow: inset 0 0 12px rgba(0,0,0,0.8);
     }
 
     .bar {
       height: 100%;
       width: 0%;
-      background: linear-gradient(90deg, var(--primary), #006633);
+      background: linear-gradient(90deg, var(--primary), #004d33);
       transition: width 0s;
-      box-shadow: 0 0 12px var(--primary);
+      box-shadow: 0 0 15px var(--primary);
+      position: relative;
     }
 
     .percent {
@@ -97,9 +120,9 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: clamp(1.1rem, 4vw, 1.5rem);
+      font-size: clamp(1.2rem, 4.5vw, 1.6rem);
       color: #000;
-      text-shadow: 0 0 6px #fff;
+      text-shadow: 0 0 8px #fff;
       mix-blend-mode: difference;
       pointer-events: none;
       font-weight: bold;
@@ -111,6 +134,7 @@
       opacity: 0.7;
       text-align: center;
       padding: 1rem;
+      z-index: 2;
     }
 
     @media (max-width: 600px) {
@@ -119,7 +143,7 @@
         gap: 1rem;
       }
       .label { text-align: center; }
-      .bar-container { height: 32px; }
+      .bar-container { height: 36px; }
     }
   </style>
 
@@ -171,40 +195,40 @@
   <script>
   document.addEventListener('DOMContentLoaded', () => {
     const bars = document.querySelectorAll('.bar');
-    let delay = 400;
+    let delay = 800;
 
-    bars.forEach(bar => {
-      const targetPercent = parseInt(bar.dataset.percent, 10);
+    bars.forEach((bar, index) => {
+      const target = parseInt(bar.dataset.percent, 10);
       const percentText = bar.parentElement.querySelector('.percent');
 
       setTimeout(() => {
-        let start = 0;
-        const duration = 1800; 
-        const startTime = performance.now();
+        let startTime;
+        const duration = 2200;
 
         function animate(time) {
+          if (!startTime) startTime = time;
           const elapsed = time - startTime;
           const progress = Math.min(elapsed / duration, 1);
-        
-          const eased = 1 - Math.pow(1 - progress, 4);
-          const current = Math.floor(start + (targetPercent - start) * eased);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          const current = Math.round(target * eased);
 
           bar.style.width = current + '%';
           percentText.textContent = current + '%';
 
           if (progress < 1) {
             requestAnimationFrame(animate);
-          } else {
-            bar.style.width = targetPercent + '%';
-            percentText.textContent = targetPercent + '%';
           }
         }
 
         requestAnimationFrame(animate);
-      }, delay);
-
-      delay += 600;
+      }, delay + index * 350);
     });
   });
+
+  const overallBar = document.querySelector('.bar[data-percent="47"]');
+  const allPercents = Array.from(document.querySelectorAll('.bar:not([data-percent="47"])'))
+    .map(b => parseInt(b.dataset.percent, 10));
+  const avg = Math.round(allPercents.reduce((a, b) => a + b, 0) / allPercents.length);
+  overallBar.dataset.percent = avg;
   </script>
 </section>
