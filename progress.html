@@ -191,40 +191,56 @@
   </footer>
 
   <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      setTimeout(() => {
-        const bars = document.querySelectorAll('.bar');
+    function startBarAnimation() {
+      const bars = document.querySelectorAll('.bar');
+      if (bars.length === 0) return;
 
-        bars.forEach((bar, index) => {
-          const target = parseInt(bar.getAttribute('data-percent') || '0', 10);
-          const percentText = bar.parentElement.querySelector('.percent');
+      console.log('Starting bar animation – found', bars.length, 'bars');
 
-          bar.style.width = '0%';
-          percentText.textContent = '0%';
+      bars.forEach((bar, index) => {
+        const target = parseInt(bar.getAttribute('data-percent') || '0', 10);
+        const percentText = bar.parentElement.querySelector('.percent');
 
-          let startTime = null;
-          const duration = 2200;
+        bar.style.width = '0%';
+        percentText.textContent = '0%';
 
-          function animate(time) {
-            if (!startTime) startTime = time;
-            const elapsed = time - startTime;
-            const progress = Math.min(elapsed / duration, 1);
-            const eased = 1 - Math.pow(1 - progress, 3);
-            const current = Math.round(target * eased);
+        let startTime = null;
+        const duration = 2200;
 
-            bar.style.width = current + '%';
-            percentText.textContent = current + '%';
+        function animate(time) {
+          if (!startTime) startTime = time;
+          const elapsed = time - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          const current = Math.round(target * eased);
 
-            if (progress < 1) {
-              requestAnimationFrame(animate);
-            }
-          }
+          bar.style.width = current + '%';
+          percentText.textContent = current + '%';
 
-          setTimeout(() => {
+          if (progress < 1) {
             requestAnimationFrame(animate);
-          }, 800 + index * 400); 
-        });
-      }, 600);
+          }
+        }
+
+        setTimeout(() => {
+          requestAnimationFrame(animate);
+        }, 800 + index * 400);
+      });
+    }
+    
+    if (document.querySelector('.progress-grid')) {
+      startBarAnimation();
+    }
+
+    const observer = new MutationObserver((mutations) => {
+      if (document.querySelector('.progress-grid')) {
+        startBarAnimation();
+        observer.disconnect();
+      }
     });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    setTimeout(startBarAnimation, 3000);
   </script>
 </section>
