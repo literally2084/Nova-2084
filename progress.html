@@ -193,16 +193,18 @@
   </footer>
 
   <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    const bars = document.querySelectorAll('.bar');
-    let delay = 800;
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      const bars = document.querySelectorAll('.bar');
+  
+      bars.forEach((bar, index) => {
+        const target = parseInt(bar.dataset.percent || 0, 10);
+        const percentText = bar.parentElement.querySelector('.percent');
 
-    bars.forEach((bar, index) => {
-      const target = parseInt(bar.dataset.percent, 10);
-      const percentText = bar.parentElement.querySelector('.percent');
+        bar.style.width = '0%';
+        percentText.textContent = '0%';
 
-      setTimeout(() => {
-        let startTime;
+        let startTime = null;
         const duration = 2200;
 
         function animate(time) {
@@ -217,12 +219,17 @@
 
           if (progress < 1) {
             requestAnimationFrame(animate);
+          } else {
+            bar.style.width = target + '%';
+            percentText.textContent = target + '%';
           }
         }
 
-        requestAnimationFrame(animate);
-      }, delay + index * 350);
-    });
+        setTimeout(() => {
+          requestAnimationFrame(animate);
+        }, 800 + index * 400);
+      });
+    }, 500);
   });
 
   const overallBar = document.querySelector('.bar[data-percent="47"]');
