@@ -10,7 +10,7 @@
 
     body {
       margin: 0;
-      height: 100dvh;
+      min-height: 100dvh;
       background: var(--bg);
       color: var(--text);
       font-family: 'VT323', monospace;
@@ -18,7 +18,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      overflow: hidden;
+      overflow-x: hidden;
       cursor: none;
       image-rendering: pixelated;
     }
@@ -26,7 +26,7 @@
     h1.glitch {
       font-size: clamp(2.2rem, 8vw, 4.5rem);
       text-align: center;
-      margin: 0 0 1rem;
+      margin: 2rem 0 1.5rem;
       animation: glitch-skew 4s infinite;
       position: relative;
     }
@@ -58,34 +58,36 @@
 
     .progress-grid {
       width: 90vw;
-      max-width: 800px;
+      max-width: 900px;
       display: grid;
-      grid-template-columns: 1fr 3fr;
-      gap: 1rem 1.5rem;
+      grid-template-columns: minmax(140px, 1fr) 3fr;
+      gap: 1.2rem 2rem;
       align-items: center;
-      padding: 1rem;
+      padding: 1rem 0;
     }
 
     .label {
-      font-size: clamp(1.3rem, 5vw, 1.8rem);
+      font-size: clamp(1.3rem, 4.5vw, 1.9rem);
       text-align: right;
       color: var(--primary);
       text-shadow: 0 0 6px currentColor;
+      white-space: nowrap;
     }
 
     .bar-container {
-      height: 24px;
-      background: #111111;
+      height: 28px;
+      background: #111;
       border: 2px solid var(--border);
       position: relative;
       overflow: hidden;
+      border-radius: 0;
     }
 
     .bar {
       height: 100%;
       width: 0%;
-      background: linear-gradient(90deg, var(--primary), #30d9ae);
-      transition: width 1.6s ease-out;
+      background: linear-gradient(90deg, var(--primary), #006633);
+      transition: width 0s;
       box-shadow: 0 0 12px var(--primary);
     }
 
@@ -95,26 +97,29 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: clamp(1.1rem, 4vw, 1.4rem);
-      color: #000000;
-      text-shadow: 0 0 6px #ffffff;
+      font-size: clamp(1.1rem, 4vw, 1.5rem);
+      color: #000;
+      text-shadow: 0 0 6px #fff;
       mix-blend-mode: difference;
       pointer-events: none;
+      font-weight: bold;
     }
 
     footer {
-      margin-top: 3rem;
+      margin-top: 4rem;
       font-size: clamp(1rem, 3.5vw, 1.3rem);
       opacity: 0.7;
       text-align: center;
+      padding: 1rem;
     }
 
-    @media (max-width: 500px) {
+    @media (max-width: 600px) {
       .progress-grid {
         grid-template-columns: 1fr;
-        gap: 0.8rem;
+        gap: 1rem;
       }
       .label { text-align: center; }
+      .bar-container { height: 32px; }
     }
   </style>
 
@@ -165,11 +170,40 @@
 
   <script>
   document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.bar').forEach(bar => {
-      const percent = parseInt(bar.dataset.percent, 10);
+    const bars = document.querySelectorAll('.bar');
+    let delay = 400;
+
+    bars.forEach(bar => {
+      const targetPercent = parseInt(bar.dataset.percent, 10);
+      const percentText = bar.parentElement.querySelector('.percent');
+
       setTimeout(() => {
-        bar.style.width = percent + '%';
-      }, 600);
+        let start = 0;
+        const duration = 1800; 
+        const startTime = performance.now();
+
+        function animate(time) {
+          const elapsed = time - startTime;
+          const progress = Math.min(elapsed / duration, 1);
+        
+          const eased = 1 - Math.pow(1 - progress, 4);
+          const current = Math.floor(start + (targetPercent - start) * eased);
+
+          bar.style.width = current + '%';
+          percentText.textContent = current + '%';
+
+          if (progress < 1) {
+            requestAnimationFrame(animate);
+          } else {
+            bar.style.width = targetPercent + '%';
+            percentText.textContent = targetPercent + '%';
+          }
+        }
+
+        requestAnimationFrame(animate);
+      }, delay);
+
+      delay += 600;
     });
   });
   </script>
