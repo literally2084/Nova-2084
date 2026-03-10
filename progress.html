@@ -59,12 +59,14 @@
       width: 100%; height: 100%;
       background: var(--bg);
     }
+
     h1.glitch::before {
       left: 2px;
       text-shadow: -2px 0 #00ffff;
       clip: rect(0,9999px,0,0);
       animation: glitch-anim 2.5s infinite;
     }
+
     h1.glitch::after {
       left: -2px;
       text-shadow: 2px 0 #ff00ff;
@@ -109,9 +111,8 @@
       height: 100%;
       width: 0%;
       background: linear-gradient(90deg, var(--primary), #004d33);
-      transition: width 0s;
       box-shadow: 0 0 15px var(--primary);
-      position: relative;
+      transition: width 0s;
     }
 
     .percent {
@@ -138,40 +139,37 @@
     }
 
     @media (max-width: 600px) {
-      .progress-grid {
-        grid-template-columns: 1fr;
-        gap: 1rem;
-      }
+      .progress-grid { grid-template-columns: 1fr; gap: 1rem; }
       .label { text-align: center; }
       .bar-container { height: 36px; }
     }
   </style>
 
   <h1 class="glitch" data-text="DEVELOPMENT STATUS">DEVELOPMENT STATUS</h1>
-  
+
   <div class="progress-grid">
     <div class="label">SCRIPT / WRITING</div>
     <div class="bar-container">
-      <div class="bar" data-percent="80%"></div>
-      <div class="percent">80%</div>
+      <div class="bar" data-percent="80"></div>
+      <div class="percent">0%</div>
     </div>
 
     <div class="label">ANIMATION / VISUALS</div>
     <div class="bar-container">
-      <div class="bar" data-percent="20%"></div>
-      <div class="percent">20%</div>
+      <div class="bar" data-percent="20"></div>
+      <div class="percent">0%</div>
     </div>
 
     <div class="label">MUSIC & SOUND DESIGN</div>
     <div class="bar-container">
-      <div class="bar" data-percent="40%"></div>
-      <div class="percent">40%</div>
+      <div class="bar" data-percent="40"></div>
+      <div class="percent">0%</div>
     </div>
 
     <div class="label">VOICE ACTING / CAST</div>
     <div class="bar-container">
-      <div class="bar" data-percent="95%"></div>
-      <div class="percent">95%</div>
+      <div class="bar" data-percent="95"></div>
+      <div class="percent">0%</div>
     </div>
 
     <div class="label">EDITING & POST-PRODUCTION</div>
@@ -183,7 +181,7 @@
     <div class="label">OVERALL PROGRESS</div>
     <div class="bar-container">
       <div class="bar" data-percent="47"></div>
-      <div class="percent">47%</div>
+      <div class="percent">0%</div>
     </div>
   </div>
 
@@ -193,49 +191,40 @@
   </footer>
 
   <script>
-  window.addEventListener('load', () => {
-    setTimeout(() => {
-      const bars = document.querySelectorAll('.bar');
-  
-      bars.forEach((bar, index) => {
-        const target = parseInt(bar.dataset.percent || 0, 10);
-        const percentText = bar.parentElement.querySelector('.percent');
+    document.addEventListener('DOMContentLoaded', () => {
+      setTimeout(() => {
+        const bars = document.querySelectorAll('.bar');
 
-        bar.style.width = '0%';
-        percentText.textContent = '0%';
+        bars.forEach((bar, index) => {
+          const target = parseInt(bar.getAttribute('data-percent') || '0', 10);
+          const percentText = bar.parentElement.querySelector('.percent');
 
-        let startTime = null;
-        const duration = 2200;
+          bar.style.width = '0%';
+          percentText.textContent = '0%';
 
-        function animate(time) {
-          if (!startTime) startTime = time;
-          const elapsed = time - startTime;
-          const progress = Math.min(elapsed / duration, 1);
-          const eased = 1 - Math.pow(1 - progress, 3);
-          const current = Math.round(target * eased);
+          let startTime = null;
+          const duration = 2200;
 
-          bar.style.width = current + '%';
-          percentText.textContent = current + '%';
+          function animate(time) {
+            if (!startTime) startTime = time;
+            const elapsed = time - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            const current = Math.round(target * eased);
 
-          if (progress < 1) {
-            requestAnimationFrame(animate);
-          } else {
-            bar.style.width = target + '%';
-            percentText.textContent = target + '%';
+            bar.style.width = current + '%';
+            percentText.textContent = current + '%';
+
+            if (progress < 1) {
+              requestAnimationFrame(animate);
+            }
           }
-        }
 
-        setTimeout(() => {
-          requestAnimationFrame(animate);
-        }, 800 + index * 400);
-      });
-    }, 500);
-  });
-
-  const overallBar = document.querySelector('.bar[data-percent="47"]');
-  const allPercents = Array.from(document.querySelectorAll('.bar:not([data-percent="47"])'))
-    .map(b => parseInt(b.dataset.percent, 10));
-  const avg = Math.round(allPercents.reduce((a, b) => a + b, 0) / allPercents.length);
-  overallBar.dataset.percent = avg;
+          setTimeout(() => {
+            requestAnimationFrame(animate);
+          }, 800 + index * 400); 
+        });
+      }, 600);
+    });
   </script>
 </section>
