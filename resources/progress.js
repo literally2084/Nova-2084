@@ -1,16 +1,20 @@
-function startBarAnimation() {
+function resetAndAnimateBars() {
   const bars = document.querySelectorAll('.bar');
-  if (bars.length === 0) return;
+  if (!bars.length) return;
+  
+  bars.forEach(bar => {
+  bar.style.width = '0%';
+  const text = bar.parentElement.querySelector('.percent');
+  if (text) text.textContent = '0%';
+});
 
-  console.log('Starting bar animation – found', bars.length, 'bars');
+  let delay = 400;
 
   bars.forEach((bar, index) => {
-    const target = parseInt(bar.getAttribute('data-percent') || '0', 10);
-    const percentText = bar.parentElement.querySelector('.percent');
+  const target = parseInt(bar.getAttribute('data-percent') || '0', 10);
+  const percentText = bar.parentElement.querySelector('.percent');
 
-    bar.style.width = '0%';
-    percentText.textContent = '0%';
-
+  setTimeout(() => {
     let startTime = null;
     const duration = 2200;
 
@@ -22,30 +26,29 @@ function startBarAnimation() {
       const current = Math.round(target * eased);
 
       bar.style.width = current + '%';
-      percentText.textContent = current + '%';
+      if (percentText) percentText.textContent = current + '%';
 
-      if (progress < 1) {
-        requestAnimationFrame(animate);
-      }
+      if (progress < 1) requestAnimationFrame(animate);
     }
 
-    setTimeout(() => {
-      requestAnimationFrame(animate);
-    }, 800 + index * 400);
+    requestAnimationFrame(animate);
+    }, delay + index * 400);
   });
 }
-    
-if (document.querySelector('.progress-grid')) {
-  startBarAnimation();
-}
 
-const observer = new MutationObserver((mutations) => {
+document.addEventListener('DOMContentLoaded', () => {
+  setTimeout(resetAndAnimateBars, 600);
+});
+
+const progressObserver = new MutationObserver((mutations) => {
   if (document.querySelector('.progress-grid')) {
-    startBarAnimation();
-    observer.disconnect();
+    resetAndAnimateBars();
   }
 });
 
-observer.observe(document.body, { childList: true, subtree: true });
+progressObserver.observe(document.body, {
+  childList: true,
+  subtree: true
+});
 
-setTimeout(startBarAnimation, 3000);
+setTimeout(resetAndAnimateBars, 3000);
