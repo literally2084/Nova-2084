@@ -9,8 +9,8 @@
       --glow: rgba(12, 255, 255, 0.8);
     }
 
-    body {
-      margin: 0;
+    .page-content {
+      width: 100%;
       min-height: 100dvh;
       background: var(--bg);
       color: var(--text);
@@ -19,27 +19,7 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      overflow-x: hidden;
-      cursor: none;
-      image-rendering: pixelated;
-      position: relative;
-    }
-
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      pointer-events: none;
-      background: repeating-linear-gradient(
-        transparent 0,
-        transparent 2px,
-        rgba(0,0,0,0.35) 2px,
-        rgba(0,0,0,0.35) 4px
-      );
-      background-size: 100% 4px;
-      animation: scan 10s linear infinite;
-      mix-blend-mode: multiply;
-      z-index: 1;
+      padding: 1rem;
     }
 
     h1.glitch {
@@ -58,14 +38,12 @@
       width: 100%; height: 100%;
       background: var(--bg);
     }
-
     h1.glitch::before {
       left: 2px;
       text-shadow: -2px 0 #00ffff;
       clip: rect(0,9999px,0,0);
       animation: glitch-anim 2.5s infinite;
     }
-
     h1.glitch::after {
       left: -2px;
       text-shadow: 2px 0 #ff00ff;
@@ -76,7 +54,6 @@
     @keyframes glitch-anim  { 0%,100% { clip: rect(42px,9999px,44px,0) } 5% { clip: rect(17px,9999px,94px,0) } }
     @keyframes glitch-anim2 { 0%,100% { clip: rect(65px,9999px,119px,0) } 10% { clip: rect(37px,9999px,77px,0) } }
     @keyframes glitch-skew  { 0%,100% { transform: skew(0deg) } 10% { transform: skew(2deg) } }
-    @keyframes scan { 0% { transform: translateY(-100%); } 100% { transform: translateY(100%); } }
 
     .progress-grid {
       width: 90vw;
@@ -85,8 +62,8 @@
       grid-template-columns: minmax(160px, auto) 1fr;
       gap: 1.2rem 2rem;
       align-items: center;
+      justify-items: center;
       padding: 1rem 0;
-      z-index: 2;
     }
 
     .label {
@@ -95,15 +72,19 @@
       color: var(--primary);
       text-shadow: 0 0 8px currentColor;
       white-space: nowrap;
+      width: 100%;
     }
 
     .bar-container {
       height: 32px;
+      width: 100%;
+      max-width: 600px;
       background: #0a0a0a;
       border: 2px solid var(--border);
       position: relative;
       overflow: hidden;
       box-shadow: inset 0 0 12px rgba(0,0,0,0.8);
+      margin: 0 auto;
     }
 
     .bar {
@@ -111,7 +92,6 @@
       width: 0%;
       background: linear-gradient(90deg, var(--primary), #004d33);
       box-shadow: 0 0 15px var(--primary);
-      transition: width 0s;
     }
 
     .percent {
@@ -134,13 +114,19 @@
       opacity: 0.7;
       text-align: center;
       padding: 1rem;
-      z-index: 2;
     }
 
     @media (max-width: 600px) {
-      .progress-grid { grid-template-columns: 1fr; gap: 1rem; }
-      .label { text-align: center; }
-      .bar-container { height: 36px; }
+      .progress-grid {
+        grid-template-columns: 1fr;
+        gap: 1.2rem;
+      }
+      .label {
+        text-align: center;
+      }
+      .bar-container {
+        height: 36px;
+      }
     }
   </style>
 
@@ -188,4 +174,56 @@
     THE VISIONARY MONITORS ALL PROGRESS.<br>
     COMPLIANCE IS MANDATORY. :)
   </footer>
+
+  <script>
+    function animateProgressBars() {
+      const bars = document.querySelectorAll('.bar');
+      if (bars.length === 0) return;
+
+      bars.forEach(bar => {
+        bar.style.width = '0%';
+        const percentText = bar.parentElement.querySelector('.percent');
+        if (percentText) percentText.textContent = '0%';
+      });
+
+      let delay = 400;
+
+      bars.forEach((bar, index) => {
+        const target = parseInt(bar.getAttribute('data-percent') || '0', 10);
+        const percentText = bar.parentElement.querySelector('.percent');
+
+        setTimeout(() => {
+          let startTime = null;
+          const duration = 2200;
+
+          function animate(time) {
+            if (!startTime) startTime = time;
+            const elapsed = time - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            const current = Math.round(target * eased);
+
+            bar.style.width = current + '%';
+            if (percentText) percentText.textContent = current + '%';
+
+            if (progress < 1) requestAnimationFrame(animate);
+          }
+
+          requestAnimationFrame(animate);
+        }, delay + index * 400);
+      });
+    }
+
+    if (document.querySelector('.progress-grid')) {
+      setTimeout(animateProgressBars, 300);
+    }
+    
+    const observer = new MutationObserver(() => {
+      if (document.querySelector('.progress-grid')) {
+        setTimeout(animateProgressBars, 300);
+      }
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true });
+  </script>
 </section>
