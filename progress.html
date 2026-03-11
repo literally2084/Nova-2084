@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en" class="crt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <title>NOVA 2084: Progress</title>
+    <link rel="icon" type="image/x-icon" href="./resources/nv84-icon.ico">
+    <link rel="stylesheet" href="./resources/style.css">
+    <link rel="stylesheet" media="all" href="./resources/theme.css" id="theme_css" />
+    <meta name="description" content="NOVA 2084. The Visionary Is Watching You.">
+    <meta name="robots" content="noindex, nofollow">
+
+    <style>
+        :root {
+            --primary: #00ff9d;
+            --warning: #ff0044;
+            --text:   #00ff41;
+            --bg:     #000000;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; }
+
+        html, body {
+            height: 100dvh;
+            margin: 0;
+            padding: 0;
+            background: var(--bg) !important;
+            color: var(--text);
+            font-family: 'VT323', monospace;
+            overflow-x: hidden;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        #content-area, #syncOverlay, dialog, dialog::backdrop {
+            background: var(--bg) !important;
+        }
+
+        .crt::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 9998;
+            background: repeating-linear-gradient(transparent 0, transparent 2px, rgba(0,0,0,0.4) 2px, rgba(0,0,0,0.4) 4px);
+            background-size: 100% 4px;
+            animation: scan 12s linear infinite;
+            mix-blend-mode: multiply;
+        }
+
+        .crt::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 9997;
+            background: linear-gradient(to bottom, rgba(255,0,255,0.04) 0%, transparent 50%, rgba(0,255,255,0.04) 100%);
+            animation: aberration 7s infinite alternate;
+        }
+
+        @keyframes scan       { 0% { transform: translateY(-100%); } 100% { transform: translateY(100%); } }
+        @keyframes aberration { 0% { transform: translateX(-1.5px); } 100% { transform: translateX(1.5px); } }
+
+        #eye-cursor {
+            position: fixed;
+            width: 32px;
+            height: 32px;
+            pointer-events: none;
+            z-index: 99999;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><circle cx="50" cy="50" r="38" fill="none" stroke="%2300ff9d" stroke-width="6"/><circle cx="50" cy="50" r="18" fill="%23ff0044"/><circle cx="58" cy="45" r="6" fill="white"/></svg>') no-repeat center / contain;
+            transform: translate(-50%, -50%);
+            transition: transform 0.12s ease-out;
+            filter: drop-shadow(0 0 8px #00ff9d);
+        }
+
+        @media (max-width: 600px) { #eye-cursor { width: 26px; height: 26px; } }
+
+        #escalation {
+            position: fixed;
+            bottom: 2vh;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--warning);
+            font-size: clamp(1.1rem, 4vw, 1.3rem);
+            opacity: 0;
+            transition: opacity 2.5s;
+            text-align: center;
+            max-width: 92%;
+            text-shadow: 0 0 10px #000;
+            z-index: 9990;
+            pointer-events: none;
+            padding: 0 1rem;
+        }
+
+        #syncOverlay {
+            position: fixed;
+            inset: 0;
+            background: var(--bg);
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: clamp(1.6rem, 5vw, 1.8rem);
+            opacity: 0;
+            transition: opacity 1.5s;
+        }
+
+        #syncBarContainer {
+            width: 80%;
+            max-width: 500px;
+            height: 24px;
+            background: #111;
+            border: 2px solid var(--primary);
+            margin: 5vh 0;
+        }
+
+        #syncBar {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(to right, var(--primary), #006633);
+            transition: width 5.5s cubic-bezier(0.25, 0.1, 0.25, 1);
+        }
+
+        dialog {
+            position: fixed;
+            inset: 0;
+            margin: auto;
+            width: 90vw;
+            max-width: 620px;
+            max-height: 85dvh;
+            padding: 1.8rem 1.2rem;
+            background: var(--bg);
+            border: 2px solid #00aaaa;
+            color: var(--text);
+            box-shadow: 0 0 60px rgba(0,255,200,0.25);
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: #00ff9d #111;
+        }
+
+        dialog::backdrop {
+            background: rgba(0,0,0,0.92);
+            backdrop-filter: blur(12px);
+        }
+
+        @media (max-width: 480px) {
+            dialog { width: 94vw; padding: 1.5rem 1rem; max-height: 88dvh; }
+        }
+
+        .btn-nv84 {
+            display: block;
+            margin: 1.8rem auto 0;
+            padding: 1rem 2.5rem;
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            font-size: clamp(1.2rem, 4.5vw, 1.35rem);
+            font-family: inherit;
+            cursor: pointer;
+            text-decoration: none;
+            text-align: center;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            min-width: 160px;
+            max-width: 90%;
+            touch-action: manipulation;
+        }
+
+        .btn-nv84:active { background: rgba(0,255,157,0.15); }
+
+        .center { text-align: center; }
+
+        .glitch {
+            position: relative;
+            animation: glitch-skew 5s infinite;
+        }
+        .glitch::before, .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: var(--bg);
+        }
+        .glitch::before {
+            left: 2px; text-shadow: -2px 0 #00ffff;
+            clip: rect(0,9999px,0,0);
+            animation: glitch-anim 3s infinite;
+        }
+        .glitch::after {
+            left: -2px; text-shadow: 2px 0 #ff00ff;
+            clip: rect(0,9999px,0,0);
+            animation: glitch-anim2 4s infinite;
+        }
+
+        @keyframes glitch-anim  { 0%,100% { clip: rect(30px,9999px,90px,0) } 5% { clip: rect(10px,9999px,110px,0) } }
+        @keyframes glitch-anim2 { 0%,100% { clip: rect(70px,9999px,130px,0) } 10% { clip: rect(50px,9999px,150px,0) } }
+        @keyframes glitch-skew   { 0%,100% { transform: skew(0deg) } 10% { transform: skew(1.5deg) } }
+
+        #tamper-warning, #devtools-warning {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255,0,68,0.2);
+            border: 3px solid var(--warning);
+            color: var(--warning);
+            padding: 1.5rem 3rem;
+            font-size: 1.8rem;
+            text-align: center;
+            z-index: 100000;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.6s;
+            text-shadow: 0 0 12px #000;
+            box-shadow: 0 0 40px rgba(255,0,68,0.4);
+            display: none;
+        }
+
+        #devtools-warning {
+            background: rgba(255,68,0,0.25);
+            border-color: #ff4400;
+            pointer-events: all;
+            cursor: default;
+        }
+
+        #devtools-warning.visible, #tamper-warning.visible {
+            display: block;
+            opacity: 1;
+        }
+
+        @media (max-width: 600px) {
+            #tamper-warning, #devtools-warning {
+                padding: 1rem 2rem;
+                font-size: 1.4rem;
+            }
+        }
+    </style>
+</head>
+<body class="crt">
+  <style>
+    :root { --bg:#000; --text:#00fff7; --primary:#00fff7; --border:#00aaaa; }
+    .page-content { width:100%; min-height:100dvh; background:var(--bg); color:var(--text); font-family:'VT323',monospace; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:1rem; }
+    h1.glitch { font-size:clamp(2.5rem,9vw,5rem); text-align:center; margin:2rem 0 1.5rem; animation:glitch-skew 4s infinite; position:relative; }
+    .progress-grid { width:90vw; max-width:900px; display:grid; grid-template-columns:minmax(160px,auto) 1fr; gap:1.2rem 2rem; align-items:center; justify-items:center; padding:1rem 0; }
+    .label { font-size:clamp(1.4rem,5vw,2rem); text-align:right; color:var(--primary); text-shadow:0 0 8px currentColor; white-space:nowrap; width:100%; }
+    .bar-container { height:32px; width:100%; max-width:600px; background:#0a0a0a; border:2px solid var(--border); position:relative; overflow:hidden; box-shadow:inset 0 0 12px rgba(0,0,0,0.8); margin:0 auto; }
+    .bar { height:100%; width:0%; background:linear-gradient(90deg,var(--primary),#004d33); box-shadow:0 0 15px var(--primary); }
+    .percent { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; font-size:clamp(1.2rem,4.5vw,1.6rem); color:#000; text-shadow:0 0 8px #fff; mix-blend-mode:difference; pointer-events:none; font-weight:bold; }
+    @media (max-width:600px) { .progress-grid { grid-template-columns:1fr; gap:1rem; } .label { text-align:center; } .bar-container { height:36px; } }
+  </style>
+
+  <h1 class="glitch" data-text="DEVELOPMENT STATUS">DEVELOPMENT STATUS</h1>
+
+  <div class="progress-grid">
+    <div class="label">SCRIPT / WRITING</div>
+    <div class="bar-container"><div class="bar" data-percent="80"></div><div class="percent">0%</div></div>
+    <div class="label">ANIMATION / VISUALS</div>
+    <div class="bar-container"><div class="bar" data-percent="20"></div><div class="percent">0%</div></div>
+    <div class="label">MUSIC & SOUND DESIGN</div>
+    <div class="bar-container"><div class="bar" data-percent="40"></div><div class="percent">0%</div></div>
+    <div class="label">VOICE ACTING / CAST</div>
+    <div class="bar-container"><div class="bar" data-percent="95"></div><div class="percent">0%</div></div>
+    <div class="label">EDITING & POST-PRODUCTION</div>
+    <div class="bar-container"><div class="bar" data-percent="0"></div><div class="percent">0%</div></div>
+    <div class="label">OVERALL PROGRESS</div>
+    <div class="bar-container"><div class="bar" data-percent="47"></div><div class="percent">0%</div></div>
+  </div>
+
+  <footer class="center">THE VISIONARY MONITORS ALL PROGRESS.<br>COMPLIANCE IS MANDATORY. :)</footer>
+
+  <script>
+    window.addEventListener('load', () => {
+      setTimeout(() => {
+        const bars = document.querySelectorAll('.bar');
+        if (!bars.length) return;
+
+        bars.forEach(bar => {
+          bar.style.width = '0%';
+          const t = bar.parentElement.querySelector('.percent');
+          if (t) t.textContent = '0%';
+        });
+
+        let d = 600;
+        bars.forEach((bar, i) => {
+          const target = parseInt(bar.getAttribute('data-percent') || 0, 10);
+          const t = bar.parentElement.querySelector('.percent');
+
+          setTimeout(() => {
+            let s = null;
+            const dur = 1800;
+            function f(time) {
+              if (!s) s = time;
+              const e = time - s;
+              const p = Math.min(e / dur, 1);
+              const eased = 1 - Math.pow(1 - p, 3);
+              const v = Math.round(target * eased);
+              bar.style.width = v + '%';
+              if (t) t.textContent = v + '%';
+              if (p < 1) requestAnimationFrame(f);
+            }
+            requestAnimationFrame(f);
+          }, d + i * 350);
+        });
+      }, 800);
+    });
+  </script>
+</body>
