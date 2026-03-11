@@ -1,54 +1,50 @@
-function resetAndAnimateBars() {
+function initProgress() {
   const bars = document.querySelectorAll('.bar');
   if (!bars.length) return;
-  
+
   bars.forEach(bar => {
-  bar.style.width = '0%';
-  const text = bar.parentElement.querySelector('.percent');
-  if (text) text.textContent = '0%';
-});
+    bar.style.width = '0%';
+    const text = bar.parentElement.querySelector('.percent');
+    if (text) text.textContent = '0%';
+  });
 
-  let delay = 400;
+  let delay = 600;
 
-  bars.forEach((bar, index) => {
-  const target = parseInt(bar.getAttribute('data-percent') || '0', 10);
-  const percentText = bar.parentElement.querySelector('.percent');
+  bars.forEach((bar, i) => {
+    const target = parseInt(bar.getAttribute('data-percent') || 0, 10);
+    const text = bar.parentElement.querySelector('.percent');
 
-  setTimeout(() => {
-    let startTime = null;
-    const duration = 2200;
+    setTimeout(() => {
+      let t0 = null;
+      const dur = 1800;
+      
+      function step(t) {
+        if (!t0) t0 = t;
+        const p = Math.min((t - t0) / dur, 1);
+        const eased = 1 - Math.pow(1 - p, 3);
+        const val = Math.round(target * eased);
 
-    function animate(time) {
-      if (!startTime) startTime = time;
-      const elapsed = time - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3);
-      const current = Math.round(target * eased);
+        bar.style.width = val + '%';
+        if (text) text.textContent = val + '%';
 
-      bar.style.width = current + '%';
-      if (percentText) percentText.textContent = current + '%';
+        if (p < 1) requestAnimationFrame(step);
+      }
 
-      if (progress < 1) requestAnimationFrame(animate);
-    }
-
-    requestAnimationFrame(animate);
-    }, delay + index * 400);
+      requestAnimationFrame(step);
+    }, delay + i * 350);
   });
 }
 
+if (document.querySelector('.progress-grid')) {
+  initProgress();
+}
+
 document.addEventListener('DOMContentLoaded', () => {
-  setTimeout(resetAndAnimateBars, 600);
+  setTimeout(initProgress, 800);
 });
 
-const progressObserver = new MutationObserver((mutations) => {
+new MutationObserver(() => {
   if (document.querySelector('.progress-grid')) {
-    resetAndAnimateBars();
+    initProgress();
   }
-});
-
-progressObserver.observe(document.body, {
-  childList: true,
-  subtree: true
-});
-
-setTimeout(resetAndAnimateBars, 3000);
+}).observe(document.body, { childList: true, subtree: true });
