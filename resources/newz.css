@@ -24,7 +24,7 @@ header {
     padding: 20px;
 }
 
-.card {
+.nzcard {
     background-color: black;
     border-radius: 8px;
     border-color: cyan;
@@ -35,28 +35,28 @@ header {
     transition: transform 0.2s;
 }
 
-.card:hover {
+.nzcard:hover {
     transform: translateY(-5px);
 }
 
-.card img {
+.nzcard img {
     width: 100%;
     height: auto;
     object-fit: cover;
 }
 
-.card-info {
+.nzcard-info {
     font-family: LazenbyCompSmooth;
     padding: 15px;
 }
 
-.card-info h3 {
+.nzcard-info h3 {
     font-family: LazenbyCompSmooth;
     margin: 0 0 5px 0;
     color: #333;
 }
 
-.card-info p {
+.nzcard-info p {
     font-family: LazenbyCompSmooth;
     margin: 0;
     color: #666;
