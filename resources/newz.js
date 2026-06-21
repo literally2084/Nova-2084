@@ -1,6 +1,6 @@
 // 1. Define the track data
 const episodes = [
-    { title: "Test Broadcast", url: "https://youtu.be/-6XOiFNXr3E?si=D0XQd6L5rqKsnjzW", epnum: "Nova 2084 Crew", imageUrl: "https://raw.githubusercontent.com/literally2084/Nova-2084/refs/heads/main/resources/bn-alt.png" },
+    { title: "Test Broadcast", url: "https://youtu.be/Lb3HXoetOts?si=kc7X_jQ5r3QL2DRq", epnum: "???", imageUrl: "https://raw.githubusercontent.com/literally2084/Nova-2084/refs/heads/main/resources/bn-alt.png" },
     // Add more articles as needed
 ];
 
