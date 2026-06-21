@@ -4,19 +4,19 @@ const newzs = [
     // Add more articles as needed
 ];
 
-// 2. Function to create a newz card element
-function createEPCard(newz) {
-    const card = document.createElement("div");
-    card.classList.add("card");
+// 2. Function to create a newz nzcard element
+function createNZnzcard(newz) {
+    const nzcard = document.createElement("div");
+    nzcard.classList.add("nzcard");
 
-    card.innerHTML = `
+    nzcard.innerHTML = `
         <img src="${newz.imageUrl}" alt="${newz.title}">
-        <div class="card-info">
+        <div class="nzcard-info">
             <h3><a style="color: cyan;" href="${newz.url}">${newz.title}</a></h3>
             <p>${newz.epnum}</p>
         </div>
     `;
-    return card;
+    return nzcard;
 }
 
 // 3. Function to render all newzs
@@ -28,8 +28,8 @@ function renderEP() {
     }
     
     newzs.forEach(newz => {
-        const card = createEPCard(newz);
-        newzListContainer.appendChild(card);
+        const nzcard = createNZnzcard(newz);
+        newzListContainer.appendChild(nzcard);
     });
 }
 
