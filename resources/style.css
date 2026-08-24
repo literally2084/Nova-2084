@@ -199,6 +199,7 @@ p {
   box-sizing: border-box;
   overflow-y: auto;
   border: 2px solid #00FFFF;
+  border-radius: 12px;
   background-color: #000000;
   list-style-type: none;
   -webkit-font-smoothing: antialiased;
