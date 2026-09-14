@@ -1,15 +1,13 @@
 // 1. Define the cast data
 const castMembers = [
     { name: "TBD", role: "Nova-84", imageUrl: "https://literally2084.github.io/Nova-2084/resources/IMG_7587.png" },
-    { name: "TBD", role: "Darcella", imageUrl: "via.placeholder.com" },
+    { name: "Maggie Z.", role: "Darcella", imageUrl: "https://literally2084.github.io/Nova-2084/resources/cd.png" },
     { name: "StellarSky", role: "Astra Aubert", imageUrl: "via.placeholder.com" },
-    { name: "Friend0", role: "Mr. Len", imageUrl: "via.placeholder.com" },
-    { name: "TBD", role: "Clairette Blanchet", imageUrl: "via.placeholder.com" },
-    { name: "TBD", role: "Carmen Sarahlight", imageUrl: "via.placeholder.com" },
+    { name: "Friend0", role: "Mr. Len", imageUrl: "https://literally2084.github.io/Nova-2084/resources/mir.png" },
+    { name: "TBD", role: "Clairette Blanchet", imageUrl: "https://literally2084.github.io/Nova-2084/resources/clar.png" },
+    { name: "TBD", role: "Carmen Sarahlight", imageUrl: "https://literally2084.github.io/Nova-2084/resources/carm.png" },
     { name: "The808", role: "Alex Iris", imageUrl: "via.placeholder.com" },
     { name: "TBD", role: "The Visionary", imageUrl: "via.placeholder.com" },
-    { name: "TBD", role: "Danny-4765", imageUrl: "via.placeholder.com" },
-    { name: "TBD", role: "Hank-34828", imageUrl: "via.placeholder.com" },
     { name: "Maggie Z.", role: "Background Characters & Other", imageUrl: "via.placeholder.com" },
     // Add more cast members as needed
 ];
