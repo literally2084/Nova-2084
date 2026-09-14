@@ -6,9 +6,9 @@ const castMembers = [
     { name: "Friend0", role: "Mr. Len", imageUrl: "https://literally2084.github.io/Nova-2084/resources/mir.png" },
     { name: "TBD", role: "Clairette Blanchet", imageUrl: "https://literally2084.github.io/Nova-2084/resources/clar.png" },
     { name: "TBD", role: "Carmen Sarahlight", imageUrl: "https://literally2084.github.io/Nova-2084/resources/carm.png" },
-    { name: "The808", role: "Alex Iris", imageUrl: "via.placeholder.com" },
-    { name: "TBD", role: "The Visionary", imageUrl: "via.placeholder.com" },
-    { name: "Maggie Z.", role: "Background Characters & Other", imageUrl: "via.placeholder.com" },
+    { name: "The808", role: "Alex Iris", imageUrl: "https://literally2084.github.io/Nova-2084/resources/alex_.png" },
+    { name: "TBD", role: "The Visionary", imageUrl: "https://literally2084.github.io/Nova-2084/visionary.png" },
+    { name: "Maggie Z.", role: "Background Characters & Other", imageUrl: "https://literally2084.github.io/Nova-2084/resources/IMG_8798.png" },
     // Add more cast members as needed
 ];
 
