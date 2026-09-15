@@ -2,7 +2,7 @@
 const castMembers = [
     { name: "TBD", role: "Nova-84", imageUrl: "https://literally2084.github.io/Nova-2084/resources/nova-84-icon.png" },
     { name: "Maggie Z.", role: "Darcella", imageUrl: "https://literally2084.github.io/Nova-2084/resources/cd.png" },
-    { name: "StellarSky", role: "Astra Aubert", imageUrl: "via.placeholder.com" },
+    { name: "StellarSky", role: "Astra Aubert", imageUrl: "https://literally2084.github.io/Nova-2084/resources/IMG_9185.png" },
     { name: "Friend0", role: "Mr. Len", imageUrl: "https://literally2084.github.io/Nova-2084/resources/mir.png" },
     { name: "TBD", role: "Clairette Blanchet", imageUrl: "https://literally2084.github.io/Nova-2084/resources/clar.png" },
     { name: "TBD", role: "Carmen Sarahlight", imageUrl: "https://literally2084.github.io/Nova-2084/resources/carm.png" },
