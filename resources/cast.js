@@ -19,9 +19,9 @@ function createCastCard(member) {
 
     card.innerHTML = `
         <img src="${member.imageUrl}" alt="${member.name}">
-        <div class="card-info glow-box">
+        <div class="card-info rolecol glow-box">
             <h3 style="color: #00ffe5;>${member.name}</h3>
-            <p style="color: #a2fcf3;">${member.role}</p>
+            <p>${member.role}</p>
         </div>
     `;
     return card;
