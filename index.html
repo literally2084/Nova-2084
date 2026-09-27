@@ -42,7 +42,19 @@
             font-family: 'VT323', monospace;
             overflow-x: hidden;
             -webkit-tap-highlight-color: transparent;
+            text-shadow: 0 0 10px #00ffcc, 0 0 20px #00ffcc, 0 0 40px #00ffcc;
+            
         }
+
+        .glow-box {
+            padding: 20px;
+            box-shadow: 0 0 15px #00ffcc, inset 0 0 15px #00ffcc;
+        }
+
+        .glow-img {
+            filter: drop-shadow(0 0 12px #00ffcc);
+        }
+
 
         #content-area, #syncOverlay, dialog, dialog::backdrop {
             background: var(--bg) !important;
@@ -269,7 +281,7 @@
 <div id="tamper-warning">👁️‍🗨️👁️‍🗨️👁️‍🗨️👁️‍🗨️</div>
 <div id="devtools-warning">THE VISI👁️ARY IS WATCHING</div>
 
-<nav role="navigation">
+<nav class="glow-box" role="navigation">
     <div id="menuToggle">
         <input type="checkbox" id="menuCheckbox" />
         <span></span><span></span><span></span>
@@ -286,7 +298,7 @@
 
 <main id="content-area"></main>
 
-<dialog id="neonPopup" open>
+<dialog class="glow-box" id="neonPopup" open>
     <h2 class="center">CITIZEN, TIMELINE 2026 <span id="timeline"></span></h2>
     <h2 class="glitch center" data-text="THE VISIONARY IS WATCHING YOU.">THE VISIONARY IS WATCHING YOU.</h2>
     <h2 class="center" style="color:cyan;">COORDINATES: <span id="coords">??, ??</span></h2>
@@ -294,13 +306,13 @@
         IRIS VISIONARY SYSTEM SCAN COMPLETE<br>
         <span id="region">CITIZEN IDENTITY MASKED BY FREE WILL ERROR</span>
     </p>
-    <a id="closeBtn" class="btn-nv84 center" href="javascript:void(0)">COMPLY</a>
+    <a id="closeBtn" class="btn-nv84 center glow-box" href="javascript:void(0)">COMPLY</a>
 </dialog>
 
-<dialog id="neonPopup2">
+<dialog class="glow-box" id="neonPopup2">
     <h2 class="neon-text center">CONTACT</h2>
     <p class="center">imglitchieeee@gmail.com (Novaur) <br>TRANSMISSION INTERCEPTED AND ARCHIVED</p>
-    <a id="closeBtn2" class="btn-nv84 center" href="javascript:void(0)">COMPLY</a>
+    <a id="closeBtn2" class="btn-nv84 center glow-box" href="javascript:void(0)">COMPLY</a>
 </dialog>
 
 <script src="https://cdn.jsdelivr.net/gh/bigdatacloudapi/js-reverse-geocode-client@latest/bigdatacloud_reverse_geocode.min.js"></script>
