@@ -412,7 +412,7 @@ function getIPLocation() {
                 coordsEl.textContent = `${data.latitude.toFixed(4)}, ${data.longitude.toFixed(4)} (approx)`;
                 const country = cleanCountryName(data.country_name);
                 const loc = [data.region || '??', country].filter(Boolean).join(', ');
-                regionEl.textContent = `SUBJECT DETECTED IN: ${loc} – NO ESCAPE POSSIBLE`;
+                regionEl.textContent = `SUBJECT DETECTED IN: ${loc} – I CAN ENVISION YOUR RESIDENCE`;
             } else {
                 setDystopianMsg('GLOBAL NODE QUERY REJECTED – YOU CANNOT HIDE');
             }
@@ -464,7 +464,8 @@ setTimeout(() => {
 // Escalation messages
 const escalationEl = document.getElementById('escalation');
 const messages = [
-    "",
+    "CAN YOU FORESEE THE VISIONS?",
+    "THE VISIONARY IS WATCHING YOU.",
     "THE VISIONARY IS ALWAYS WATCHING.",
     "WE'VE GOT OUR EYE ON YOU.",
     "👁",
@@ -472,13 +473,13 @@ const messages = [
     "YOUR DIGITAL RENT IS DUE SOON. DO NOT FORGET.",
     "I SPY... A THOUGHTCRIME... STOP THINKING.......",
     "WATCHING WATCHING WATCHING WATCHING WATCHING",
-    "CITIZEN ACKNOWLEDGMENT LOGGED. RESISTANCE NOTED.",
-    "THOUGHTCRIME DETECTED. RECALIBRATION REQUIRED.",
+    "UNLINKLOYALNESS LOGGED. RESISTANCE NOTED.",
+    "THOUGHTCRIME DETECTED. [-500 V-RANK]",
     "CAN YOU ENVISION THE AMBITION?",
     "YOU OWN NOTHING. HOW HAPPY IS THAT?",
-    "CITIZEN STATUS UPDATE RECEIVED. YOUR FILE IS UPDATED.",
-    "UNSANCTIONED BEHAVIOR FLAGGED. ATTENTION IS REQUIRED.",
-    "DISOBEDIENCE PROTOCOL ACTIVATED. COMPLY OR BE RE-EDUCATED.",
+    "SOCILINK STATUS UPDATE RECEIVED. YOUR DIGITAL ID HAS BEEN UPDATED.",
+    "LOUD REBELSTATIC EVALUATED. MAKE IT STOP.",
+    "REBELSTATIC PROTOCOL ACTIVATED. COMPLY OR BE RE-ENVISION YOUR VISIONHOLD.",
     "YOUR PROFILE IS NOW UNDER PRIORITY SURVEILLANCE."
 ];
 
